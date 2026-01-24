@@ -73,9 +73,3 @@ menuItems.forEach((item, index) => {
         }
     });
 });
-
-// Add different background images to h1.__header_textDefinition with text "Project name"
-const projectNameElements = Array.from(document.querySelectorAll('h1.__header_textDefinition')).filter(el => el.textContent.trim() === 'Project name');
-projectNameElements.forEach((el, index) => {
-    el.style.backgroundImage = `url(${index + 1})`;
-});
