@@ -29,3 +29,28 @@ document.addEventListener('mousemove', (e) => {
         }
     }
 });
+
+// Add hover effect to show images when hovering over project names
+const projectNames = document.querySelectorAll('.__header_projectNameNest');
+projectNames.forEach(name => {
+    name.addEventListener('mouseenter', () => {
+        const parent = name.closest('.columnArrangement');
+        const img = parent.querySelector('.__header_imagePosition');
+        if (img) {
+            img.classList.add('__header_imageActive');
+        }
+    });
+    name.addEventListener('mouseleave', () => {
+        const parent = name.closest('.columnArrangement');
+        const img = parent.querySelector('.__header_imagePosition');
+        if (img) {
+            img.classList.remove('__header_imageActive');
+        }
+    });
+});
+
+// Add different background images to h1.__header_textDefinition with text "Project name"
+const projectNameElements = Array.from(document.querySelectorAll('h1.__header_textDefinition')).filter(el => el.textContent.trim() === 'Project name');
+projectNameElements.forEach((el, index) => {
+    el.style.backgroundImage = `url(${index + 1})`;
+});
