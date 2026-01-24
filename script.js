@@ -49,6 +49,31 @@ projectNames.forEach(name => {
     });
 });
 
+// Add menu functionality for navigation
+const allHeaderTexts = Array.from(document.querySelectorAll('.__header_textDefinition'));
+const menuItems = allHeaderTexts.slice(0, 3); // First three are the menu items
+menuItems.forEach((item, index) => {
+    item.style.cursor = 'pointer';
+    item.addEventListener('click', () => {
+        const projectsGrid = document.getElementById('projects-grid');
+        const pageProjects = document.getElementById('page-projects');
+        const pageContact = document.getElementById('page-contact');
+        if (index === 0) { // Klára Nováčková - show projects grid
+            projectsGrid.style.display = 'grid';
+            pageProjects.style.display = 'none';
+            pageContact.style.display = 'none';
+        } else if (index === 1) { // Projects - show projects text
+            projectsGrid.style.display = 'none';
+            pageProjects.style.display = 'block';
+            pageContact.style.display = 'none';
+        } else if (index === 2) { // contact - show contact text
+            projectsGrid.style.display = 'none';
+            pageProjects.style.display = 'none';
+            pageContact.style.display = 'block';
+        }
+    });
+});
+
 // Add different background images to h1.__header_textDefinition with text "Project name"
 const projectNameElements = Array.from(document.querySelectorAll('h1.__header_textDefinition')).filter(el => el.textContent.trim() === 'Project name');
 projectNameElements.forEach((el, index) => {

@@ -225,3 +225,9 @@ img.__main_mainImage_hero {
 .__header_companyNameNest {
     grid-column: 1;
 }
+.mainPage{
+    display: none;
+    grid-area: 1 / 2 / 3 / 5;
+    font-size: 12px;
+    line-height: 1.4rem;
+}
