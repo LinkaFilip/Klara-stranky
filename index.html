@@ -1,97 +1,152 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
     <script src="https://unpkg.com/fullpage.js/dist/fullpage.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <section class="___nested">
-        <header class="__header_headerMain __header_headerPosition __header_headerFontDefinition seeMoreHover">
-            <div class="nav-hidden">
-                <h1 class="__header_textDefinition __header_mainMenu active">Klára Nováčková</h1>
-                <div class="hiddenNav hiddenNav">
-                    <div class="__header_textDefinition __header_mainMenu">Projects</div>
-
-                    <div class="__header_textDefinition __header_mainMenu">contact</div>
-                </div>
+      <header
+        class="__header_headerMain __header_headerPosition __header_headerFontDefinition seeMoreHover"
+      >
+        <div class="nav-hidden">
+          <h1 class="__header_textDefinition __header_mainMenu active">
+            Klára Nováčková
+          </h1>
+          <div class="hiddenNav">
+            <div class="__header_textDefinition __header_mainMenu">
+              Projects
             </div>
 
-            <div id="page-projects" class="mainPage">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-                nibh arcu, volutpat eget vulputate eu, tristique eleifend nisl. Duis a dolor ac mi pharetra ornare sit
-                amet eget enim. Maecenas bibendum nisi ac augue posuere, eget hendrerit nulla bibendum. Nulla
-                ullamcorper nibh tellus, id cursus dolor tempor nec. Nullam pretium cursus sollicitudin. Suspendisse
-                potenti. Ut dictum suscipit rutrum. Sed sed ante dignissim nunc pretium tristique. Nam eu aliquam magna.
-                Mauris ultrices varius elit. Interdum et malesuada fames ac ante ipsum primis in faucibus.</div>
-            <div id="page-contact" class="mainPage">Morbi ornare sit amet ante a bibendum. Sed rhoncus sapien massa, nec
-                efficitur orci bibendum at. Curabitur volutpat ornare quam, dignissim dapibus justo dictum non. Duis a
-                magna quis diam iaculis porta quis faucibus lacus. Praesent quis dignissim libero. In fringilla libero
-                eget nunc suscipit, at commodo dolor convallis. Cras sit amet risus tincidunt, mattis erat a, tincidunt
-                purus. Donec lacinia augue quis sem blandit cursus. Nunc gravida vitae leo et porta. Praesent posuere
-                lacus et varius ullamcorper. Aliquam dapibus faucibus magna. Suspendisse lacinia lacinia tortor, et
-                lacinia velit commodo at. Sed at sagittis nibh. Nam sodales vel lectus et luctus. Vivamus commodo
-                facilisis orci sit amet commodo. Nunc congue blandit augue eget efficitur.</div>
-            <div id="projects-grid" style="display: grid;grid-area: 1 / 2 / 2 / 5;">
-                <div class="columnArrangement __header_mainMenu">
-                    <div class="__header_companyNameNest">
-                        <h1 class="__header_textDefinition active"><a href="#page1">Company</a></h1>
-                    </div>
-                    <div class="__header_projectNameNest">
-                        <h1 class="__header_textDefinition __header_mainMenu active"><a href="#page1">Poslední před spaním</a></h1>
-                    </div>
-                    <div class="__header_imageNest"><img class="__header_imagePosition" src="https://filipl.art/images/the_last_one_before_bedtime.webp"></div>
-                </div>
-                <div class="columnArrangement hiddenNav hiddenNav">
-                    <div class="__header_companyNameNest">
-                        <h1 class="__header_textDefinition"><a href="#page2">Company 2</a></h1>
-                    </div>
-                    <div class="__header_projectNameNest">
-                        <h1 class="__header_textDefinition __header_mainMenu"><a href="#page2">Makulatura</a></h1>
-                    </div>
-                    <div class="__header_imageNest"><img class="__header_imagePosition"
-                            src="https://filipl.art/images/makulatura2.webp"></div>
-                </div>
-                <div class="columnArrangement hiddenNav hiddenNav">
-                    <div style="" class="__header_companyNameNest">
-                        <h1 class="__header_textDefinition"><a href="#page3">Company 3</a></h1>
-                    </div>
-                    <div class="__header_projectNameNest">
-                        <h1 class="__header_textDefinition __header_mainMenu"><a href="#page3">Bílá štěňátka</a></h1>
-                    </div>
-                    <div class="__header_imageNest"><img class="__header_imagePosition"
-                            src="https://filipl.art/images/white_puppiesquality=1.webp"></div>
-                </div>
-            </div>
+            <div class="__header_textDefinition __header_mainMenu">contact</div>
+          </div>
+        </div>
 
-            <div></div>
-            <div class="__header_subheader">See more</div>
-        </header>
-        <main>
-            <div id="fullpage">
-                <div class="section"><img src="https://filipl.art/images/the_last_one_before_bedtime.webp" class="__main_mainImage_hero"></div>
-                <div class="section"><img src="https://filipl.art/images/makulatura2.webp" class="__main_mainImage_hero"></div>
-                <div class="section"><img src="https://filipl.art/images/white_puppiesquality=1.webp" class="__main_mainImage_hero"></div>
+        <div id="page-projects" class="mainPage">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nibh
+          arcu, volutpat eget vulputate eu, tristique eleifend nisl. Duis a
+          dolor ac mi pharetra ornare sit amet eget enim. Maecenas bibendum nisi
+          ac augue posuere, eget hendrerit nulla bibendum. Nulla ullamcorper
+          nibh tellus, id cursus dolor tempor nec. Nullam pretium cursus
+          sollicitudin. Suspendisse potenti. Ut dictum suscipit rutrum. Sed sed
+          ante dignissim nunc pretium tristique. Nam eu aliquam magna. Mauris
+          ultrices varius elit. Interdum et malesuada fames ac ante ipsum primis
+          in faucibus.
+        </div>
+        <div id="page-contact" class="mainPage">
+          Morbi ornare sit amet ante a bibendum. Sed rhoncus sapien massa, nec
+          efficitur orci bibendum at. Curabitur volutpat ornare quam, dignissim
+          dapibus justo dictum non. Duis a magna quis diam iaculis porta quis
+          faucibus lacus. Praesent quis dignissim libero. In fringilla libero
+          eget nunc suscipit, at commodo dolor convallis. Cras sit amet risus
+          tincidunt, mattis erat a, tincidunt purus. Donec lacinia augue quis
+          sem blandit cursus. Nunc gravida vitae leo et porta. Praesent posuere
+          lacus et varius ullamcorper. Aliquam dapibus faucibus magna.
+          Suspendisse lacinia lacinia tortor, et lacinia velit commodo at. Sed
+          at sagittis nibh. Nam sodales vel lectus et luctus. Vivamus commodo
+          facilisis orci sit amet commodo. Nunc congue blandit augue eget
+          efficitur.
+        </div>
+        <div id="projects-grid" style="display: grid; grid-area: 1 / 2 / 2 / 5">
+          <div class="columnArrangement hiddenNav">
+            <div class="__header_companyNameNest">
+              <h1 class="__header_textDefinition">
+                <a href="#page1">Company</a>
+              </h1>
             </div>
-            <!--<div class="scroll-container"> -->
-            <!--    <section class="full-section"> -->
-            <!--        <img src="https://filipl.art/images/the_last_one_before_bedtime.webp" class="__main_mainImage_hero"> -->
-            <!--    </section> -->
-            <!--    <section class="full-section"> -->
-            <!--        <img src="https://filipl.art/images/makulatura2.webp" class="__main_mainImage_hero"> -->
-            <!--    </section> -->
-            <!--    <section class="full-section"> -->
-            <!--        <img src="https://filipl.art/images/white_puppiesquality=1.webp" class="__main_mainImage_hero"> -->
-            <!--    </section> -->
-            <!--</div> -->
-        </main>
+            <div class="__header_projectNameNest">
+              <h1 class="__header_textDefinition">
+                <a href="#page1">Poslední před spaním</a>
+              </h1>
+            </div>
+            <div class="__header_imageNest">
+              <img
+                class="__header_imagePosition"
+                src="https://filipl.art/images/the_last_one_before_bedtime.webp"
+              />
+            </div>
+          </div>
+          <div class="columnArrangement hiddenNav">
+            <div class="__header_companyNameNest">
+              <h1 class="__header_textDefinition">
+                <a href="#page2">Company 2</a>
+              </h1>
+            </div>
+            <div class="__header_projectNameNest">
+              <h1 class="__header_textDefinition">
+                <a href="#page2">Makulatura</a>
+              </h1>
+            </div>
+            <div class="__header_imageNest">
+              <img
+                class="__header_imagePosition"
+                src="https://filipl.art/images/makulatura2.webp"
+              />
+            </div>
+          </div>
+          <div class="columnArrangement hiddenNav">
+            <div class="__header_companyNameNest">
+              <h1 class="__header_textDefinition">
+                <a href="#page3">Company 3</a>
+              </h1>
+            </div>
+            <div class="__header_projectNameNest">
+              <h1 class="__header_textDefinition">
+                <a href="#page3">Bílá štěňátka</a>
+              </h1>
+            </div>
+            <div class="__header_imageNest">
+              <img
+                class="__header_imagePosition"
+                src="https://filipl.art/images/white_puppiesquality=1.webp"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div></div>
+        <div class="__header_subheader">See more</div>
+      </header>
+      <main>
+        <div id="fullpage">
+          <div class="section">
+            <img
+              src="https://filipl.art/images/the_last_one_before_bedtime.webp"
+              class="__main_mainImage_hero"
+            />
+          </div>
+          <div class="section">
+            <img
+              src="https://filipl.art/images/makulatura2.webp"
+              class="__main_mainImage_hero"
+            />
+          </div>
+          <div class="section">
+            <img
+              src="https://filipl.art/images/white_puppiesquality=1.webp"
+              class="__main_mainImage_hero"
+            />
+          </div>
+        </div>
+        <!--<div class="scroll-container"> -->
+        <!--    <section class="full-section"> -->
+        <!--        <img src="https://filipl.art/images/the_last_one_before_bedtime.webp" class="__main_mainImage_hero"> -->
+        <!--    </section> -->
+        <!--    <section class="full-section"> -->
+        <!--        <img src="https://filipl.art/images/makulatura2.webp" class="__main_mainImage_hero"> -->
+        <!--    </section> -->
+        <!--    <section class="full-section"> -->
+        <!--        <img src="https://filipl.art/images/white_puppiesquality=1.webp" class="__main_mainImage_hero"> -->
+        <!--    </section> -->
+        <!--</div> -->
+      </main>
     </section>
     <script src="script.js"></script>
-</body>
-
+  </body>
 </html>

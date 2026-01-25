@@ -54,16 +54,7 @@ projectNames.forEach(name => {
 const allHeaderTexts = Array.from(document.querySelectorAll('.__header_textDefinition'));
 const menuItems = allHeaderTexts.slice(0, 3); // First three are the menu items
 
-// Toggle hideableNav on click of "See more"
-seeMore.addEventListener('click', () => {
-    navHiddens.forEach(nav => {
-        if (nav.classList.contains('hiddenNav')) {
-            nav.classList.replace('hiddenNav', 'visibleNav');
-        } else {
-            nav.classList.replace('visibleNav', 'hiddenNav');
-        }
-    });
-});
+
 
 // Add menu functionality for navigation
 menuItems.forEach((item, index) => {
@@ -123,6 +114,7 @@ const mainMenu = document.querySelectorAll('.__header_mainMenu');
 
 mainMenu.forEach(menuItem => {
     menuItem.addEventListener('click', () => {
+        if (menuItem.classList.contains('active')) return;
         mainMenu.forEach(item => {
             item.classList.remove('active');
         });

@@ -161,8 +161,10 @@ display:revert; revert to element instead of attribute */
     line-height: 1.4rem;
     opacity: 0.4;
 }
-.__header_textDefinition:hover,
-.__header_textDefinition.active {
+.__header_textDefinition:hover {
+    opacity: 1;
+}
+.active {
     opacity: 1;
 }
 .columnArrangement {
