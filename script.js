@@ -116,5 +116,44 @@ window.addEventListener('resize', () => ScrollTrigger.refresh()); */
 
 new fullpage('#fullpage', {
     licenseKey: 'YOUR_KEY_HERE',
-    anchors: ['page1', 'page2', 'page3', 'page4'],
+    anchors: ['page1', 'page2', 'page3'],
 });
+
+const mainMenu = document.querySelectorAll('.__header_mainMenu');
+
+mainMenu.forEach(menuItem => {
+    menuItem.addEventListener('click', () => {
+        mainMenu.forEach(item => {
+            item.classList.remove('active');
+        });
+        menuItem.classList.add('active');
+    });
+});
+
+// Function to set active state based on hash
+function setActiveFromHash() {
+    const hash = window.location.hash;
+    const companies = document.querySelectorAll('.__header_companyNameNest h1');
+    const projects = document.querySelectorAll('.__header_projectNameNest h1');
+
+    // Reset all to default (remove active)
+    companies.forEach(company => company.classList.remove('active'));
+    projects.forEach(project => project.classList.remove('active'));
+
+    if (hash === '#page1') {
+        if (companies[0]) companies[0].classList.add('active');
+        if (projects[0]) projects[0].classList.add('active');
+    } else if (hash === '#page2') {
+        if (companies[1]) companies[1].classList.add('active');
+        if (projects[1]) projects[1].classList.add('active');
+    } else if (hash === '#page3') {
+        if (companies[2]) companies[2].classList.add('active');
+        if (projects[2]) projects[2].classList.add('active');
+    }
+}
+
+// Set on load
+setActiveFromHash();
+
+// Set on hash change
+window.addEventListener('hashchange', setActiveFromHash);

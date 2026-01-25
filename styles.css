@@ -20,7 +20,6 @@ body {
     grid-auto-rows: 50%;
     column-gap: 2.3em;
     align-items: flex-start;
-    opacity: 1;
     overflow: auto;
     transition: 0.1s;
 }
@@ -162,7 +161,8 @@ display:revert; revert to element instead of attribute */
     line-height: 1.4rem;
     opacity: 0.4;
 }
-.__header_textDefinition:hover {
+.__header_textDefinition:hover,
+.__header_textDefinition.active {
     opacity: 1;
 }
 .columnArrangement {
@@ -251,4 +251,10 @@ img.__main_mainImage_hero {
 }
 .content{
   margin:50px
+}
+a, button {
+    cursor: none;
+}
+.active{
+    opacity: 1;
 }
