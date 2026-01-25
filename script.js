@@ -140,7 +140,11 @@ function setActiveFromHash() {
     companies.forEach(company => company.classList.remove('active'));
     projects.forEach(project => project.classList.remove('active'));
 
-    if (hash === '#page1') {
+    if (hash === '') {
+        if (companies[0]) companies[0].classList.add('active');
+        if (projects[0]) projects[0].classList.add('active');
+    }
+    else if (hash === '#page1') {
         if (companies[0]) companies[0].classList.add('active');
         if (projects[0]) projects[0].classList.add('active');
     } else if (hash === '#page2') {
