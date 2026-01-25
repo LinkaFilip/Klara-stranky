@@ -3,28 +3,31 @@ const cursor = document.createElement('span');
 cursor.className = 'cursor';
 document.body.appendChild(cursor);
 
-// Get the "see more" element and the img
+// Get the "see more" element and the imgs
 const seeMore = document.querySelector('.__header_subheader');
-const img = document.querySelector('img.__main_mainImage_hero');
+const imgs = document.querySelectorAll('img.__main_mainImage_hero');
 const headerMain = document.querySelector('.__header_headerMain');
+const navHiddens = document.querySelectorAll('.hideableNav');
 
 // Calculate max distance (diagonal of the viewport)
 const maxDistance = Math.sqrt(window.innerWidth ** 2 + window.innerHeight ** 2);
 
-// Update cursor position and img blur on mouse move
+// Update cursor position and imgs blur on mouse move
 document.addEventListener('mousemove', (e) => {
     cursor.style.transform = `translate3d(calc(-50% + ${e.clientX}px), calc(-50% + ${e.clientY}px), 0px)`;
 
-    if (seeMore && img) {
+    if (seeMore && imgs.length > 0) {
         const rect = seeMore.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
         const distance = Math.sqrt((e.clientX - centerX) ** 2 + (e.clientY - centerY) ** 2);
         const blur = Math.min((distance / maxDistance) * 100, 100);
-        img.style.filter = `blur(${blur}px)`;
+        imgs.forEach(img => {
+            img.style.filter = `blur(${blur}px)`;
+        });
         if (blur <= 3) {
             headerMain.style.visibility = 'hidden';
-        }else {
+        } else {
             headerMain.style.visibility = 'visible';
         }
     }
@@ -48,12 +51,22 @@ projectNames.forEach(name => {
         }
     });
 });
-
-// Add menu functionality for navigation
 const allHeaderTexts = Array.from(document.querySelectorAll('.__header_textDefinition'));
 const menuItems = allHeaderTexts.slice(0, 3); // First three are the menu items
+
+// Toggle hideableNav on click of "See more"
+seeMore.addEventListener('click', () => {
+    navHiddens.forEach(nav => {
+        if (nav.classList.contains('hiddenNav')) {
+            nav.classList.replace('hiddenNav', 'visibleNav');
+        } else {
+            nav.classList.replace('visibleNav', 'hiddenNav');
+        }
+    });
+});
+
+// Add menu functionality for navigation
 menuItems.forEach((item, index) => {
-    item.style.cursor = 'pointer';
     item.addEventListener('click', () => {
         const projectsGrid = document.getElementById('projects-grid');
         const pageProjects = document.getElementById('page-projects');
@@ -72,4 +85,36 @@ menuItems.forEach((item, index) => {
             pageContact.style.display = 'block';
         }
     });
+});
+
+// GSAP ScrollTrigger for scroll-jacking
+/*gsap.registerPlugin(ScrollTrigger);
+
+const container = document.querySelector('.scroll-container');
+
+gsap.to(container, {
+    y: -(window.innerHeight * 2),
+    ease: "none",
+    scrollTrigger: {
+        trigger: container,
+        start: "top top",
+        end: "+=" + (window.innerHeight * 2),
+        scrub: 0.6,
+        pin: true,
+        snap: {
+            snapTo: [0, 0.5, 1],
+            duration: 0.35,
+            ease: "power3.out"
+        }
+    }
+});
+ScrollTrigger.config({
+    limitCallbacks: true,
+    ignoreMobileResize: true
+});
+window.addEventListener('resize', () => ScrollTrigger.refresh()); */
+
+new fullpage('#fullpage', {
+    licenseKey: 'YOUR_KEY_HERE',
+    anchors: ['page1', 'page2', 'page3', 'page4'],
 });
