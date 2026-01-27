@@ -78,7 +78,6 @@ menuItems.forEach((item, index) => {
     });
 });
 
-// GSAP ScrollTrigger for scroll-jacking
 /*gsap.registerPlugin(ScrollTrigger);
 
 const container = document.querySelector('.scroll-container');
