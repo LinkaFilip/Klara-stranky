@@ -105,10 +105,19 @@ ScrollTrigger.config({
 });
 window.addEventListener('resize', () => ScrollTrigger.refresh()); */
 
-new fullpage('#fullpage', {
-    licenseKey: 'YOUR_KEY_HERE',
-    anchors: ['page1', 'page2', 'page3'],
-});
+try {
+  const fullpage = new Fullpage('#fullpage', {
+    sections: '.section',
+    scrollingSpeed: 700,
+    navigation: false,
+    isScrolling: true,
+    //anchors: ['lastOne', 'makulatura', 'white_puppies'],
+  });
+  console.log();
+} catch (error) {
+  console.error();
+}
+
 
 const mainMenu = document.querySelectorAll('.__header_mainMenu');
 

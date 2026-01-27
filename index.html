@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="styles.css" />
-    <script src="https://unpkg.com/fullpage.js/dist/fullpage.min.js"></script>
+    <script src="my-fullpage/dist/my-fullpage.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   </head>
@@ -28,17 +28,12 @@
           </div>
         </div>
 
-        <div id="page-projects" class="mainPage">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nibh
-          arcu, volutpat eget vulputate eu, tristique eleifend nisl. Duis a
-          dolor ac mi pharetra ornare sit amet eget enim. Maecenas bibendum nisi
-          ac augue posuere, eget hendrerit nulla bibendum. Nulla ullamcorper
-          nibh tellus, id cursus dolor tempor nec. Nullam pretium cursus
-          sollicitudin. Suspendisse potenti. Ut dictum suscipit rutrum. Sed sed
-          ante dignissim nunc pretium tristique. Nam eu aliquam magna. Mauris
-          ultrices varius elit. Interdum et malesuada fames ac ante ipsum primis
-          in faucibus.
+        <div id="page-projects" class="mainPage mainPage_zr">
+          poslední před spaním<br />
+          makulatura<br />
+          bílá štěňátka
         </div>
+
         <div id="page-contact" class="mainPage">
           Morbi ornare sit amet ante a bibendum. Sed rhoncus sapien massa, nec
           efficitur orci bibendum at. Curabitur volutpat ornare quam, dignissim
@@ -56,14 +51,16 @@
         <div id="projects-grid" style="display: grid; grid-area: 1 / 2 / 2 / 5">
           <div class="columnArrangement hiddenNav">
             <div class="__header_companyNameNest">
-              <h1 class="__header_textDefinition">
-                <a href="#page1">Company</a>
-              </h1>
+              <a href="#page1"
+                ><h1 class="__header_textDefinition">Company</h1></a
+              >
             </div>
             <div class="__header_projectNameNest">
-              <h1 class="__header_textDefinition">
-                <a href="#page1">Poslední před spaním</a>
-              </h1>
+              <a href="#page1"
+                ><h1 class="__header_textDefinition">
+                  Poslední před spaním
+                </h1></a
+              >
             </div>
             <div class="__header_imageNest">
               <img
@@ -74,14 +71,14 @@
           </div>
           <div class="columnArrangement hiddenNav">
             <div class="__header_companyNameNest">
-              <h1 class="__header_textDefinition">
-                <a href="#page2">Company 2</a>
-              </h1>
+              <a href="#page2"
+                ><h1 class="__header_textDefinition">Company 2</h1></a
+              >
             </div>
             <div class="__header_projectNameNest">
-              <h1 class="__header_textDefinition">
-                <a href="#page2">Makulatura</a>
-              </h1>
+              <a href="#page2"
+                ><h1 class="__header_textDefinition">Makulatura</h1></a
+              >
             </div>
             <div class="__header_imageNest">
               <img
@@ -92,14 +89,14 @@
           </div>
           <div class="columnArrangement hiddenNav">
             <div class="__header_companyNameNest">
-              <h1 class="__header_textDefinition">
-                <a href="#page3">Company 3</a>
-              </h1>
+              <a href="#page3"
+                ><h1 class="__header_textDefinition">Company 3</h1></a
+              >
             </div>
             <div class="__header_projectNameNest">
-              <h1 class="__header_textDefinition">
-                <a href="#page3">Bílá štěňátka</a>
-              </h1>
+              <a href="#page3"
+                ><h1 class="__header_textDefinition">Bílá štěňátka</h1></a
+              >
             </div>
             <div class="__header_imageNest">
               <img
@@ -113,27 +110,29 @@
         <div></div>
         <div class="__header_subheader">See more</div>
       </header>
+      <section
+        class="__header_headerFontDefinition __header_headerMain __header_headerPosition seeMoreHover"
+      >
+        <p style="grid-area: 6/4/6/6">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed viverra
+          sagittis sapien eget posuere. Nunc sem mi, aliquam in ante et,
+          eleifend gravida enim. Nullam dapibus fringilla tortor, a mollis nulla
+          dignissim nec. Cras dui mauris, iaculis imperdiet lectus vitae, dictum
+          tristique magna. Curabitur viverra felis ultricies orci hendrerit,
+          vitae consectetur leo congue. Quisque nec aliquam libero. Mauris et
+          malesuada turpis, lacinia rutrum lorem. Sed nec consectetur lorem, in
+          placerat dolor. Pellentesque elit nisi, luctus in libero vitae, porta
+          accumsan orci. In ac pulvinar augue. Ut eget faucibus magna.
+          Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
+          posuere cubilia curae; Vestibulum vel elementum elit. Aliquam cursus,
+          orci et finibus luctus, velit nibh condimentum elit, quis auctor
+          lectus diam ut metus. Sed luctus tellus quis aliquam tristique. Ut
+          ornare nunc vel eros vehicula, et placerat ante bibendum.
+        </p>
+      </section>
       <main>
-        <div id="fullpage">
-          <div class="section">
-            <img
-              src="https://filipl.art/images/the_last_one_before_bedtime.webp"
-              class="__main_mainImage_hero"
-            />
-          </div>
-          <div class="section">
-            <img
-              src="https://filipl.art/images/makulatura2.webp"
-              class="__main_mainImage_hero"
-            />
-          </div>
-          <div class="section">
-            <img
-              src="https://filipl.art/images/white_puppiesquality=1.webp"
-              class="__main_mainImage_hero"
-            />
-          </div>
-        </div>
+        <div id="fullpage"><div class="section"><img src="https://filipl.art/images/the_last_one_before_bedtime.webp" class="__main_mainImage_hero"/></div><div class="section"><img src="https://filipl.art/images/makulatura2.webp" class="__main_mainImage_hero"/></div><div class="section"> <img  src="https://filipl.art/images/white_puppiesquality=1.webp"  class="__main_mainImage_hero"/></div></div>
+      </main>
         <!--<div class="scroll-container"> -->
         <!--    <section class="full-section"> -->
         <!--        <img src="https://filipl.art/images/the_last_one_before_bedtime.webp" class="__main_mainImage_hero"> -->
@@ -145,7 +144,6 @@
         <!--        <img src="https://filipl.art/images/white_puppiesquality=1.webp" class="__main_mainImage_hero"> -->
         <!--    </section> -->
         <!--</div> -->
-      </main>
     </section>
     <script src="script.js"></script>
   </body>

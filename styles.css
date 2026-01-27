@@ -103,6 +103,7 @@ table {
 input,
 textarea {
   -webkit-user-select: auto;
+  user-select: none;
 }
 
 /* revert the 'white-space' property for textarea elements on Safari */
@@ -145,7 +146,9 @@ display:revert; revert to element instead of attribute */
   -webkit-user-modify: read-write;
   overflow-wrap: break-word;
   -webkit-line-break: after-white-space;
+  line-break: after-white-space;
   -webkit-user-select: auto;
+  user-select: auto;
 }
 
 /* apply back the draggable feature - exist only in Chromium and Safari */
@@ -222,6 +225,10 @@ img.__main_mainImage_hero {
 .__header_companyNameNest {
     grid-column: 1;
 }
+.mainPage_zr63oP{
+grid-area: 1 / 4 / 2 / 2;
+display: block;
+}
 .mainPage{
     display: none;
     grid-area: 1 / 2 / 3 / 5;
@@ -259,4 +266,7 @@ a, button {
 }
 .active{
     opacity: 1;
+}
+#fullpage {
+    overflow: visible !important;
 }
