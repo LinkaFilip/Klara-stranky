@@ -1,4 +1,3 @@
-import { getTotalSections } from "./my-fullpage/src/sections";
 
 // Create a custom cursor element
 const cursor = document.createElement('span');
