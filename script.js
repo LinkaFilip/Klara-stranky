@@ -105,16 +105,43 @@ ScrollTrigger.config({
 });
 window.addEventListener('resize', () => ScrollTrigger.refresh()); */
 
+// Function to set active state based on section index
+function setActiveFromSection(index) {
+  const companies = document.querySelectorAll('.__header_companyNameNest h1');
+  const projects = document.querySelectorAll('.__header_projectNameNest h1');
+
+  // Reset all to default (remove active)
+  companies.forEach(company => company.classList.remove('active'));
+  projects.forEach(project => project.classList.remove('active'));
+
+  // Set active based on index (0-based)
+  if (index === 0) {
+    if (companies[0]) companies[0].classList.add('active');
+    if (projects[0]) projects[0].classList.add('active');
+  } else if (index === 1) {
+    if (companies[1]) companies[1].classList.add('active');
+    if (projects[1]) projects[1].classList.add('active');
+  } else if (index === 2) {
+    if (companies[2]) companies[2].classList.add('active');
+    if (projects[2]) projects[2].classList.add('active');
+  }
+}
+
+let fullpageInstance;
+
 try {
-  const fullpage = new Fullpage('#fullpage', {
+  fullpageInstance = new Fullpage('#fullpage', {
     sections: '.section',
     scrollingSpeed: 700,
     navigation: false,
     isScrolling: true,
-    //anchors: ['lastOne', 'makulatura', 'white_puppies'],
+    anchors: ['page1', 'page2', 'page3'],
+    afterLoad: (origin, destination, direction) => {
+      setActiveFromSection(destination);
+    },
   });
 
-  console.log(getTotalSections(fullpage.sections.sections));
+  console.log(getTotalSections(fullpageInstance.sections.sections));
 } catch (error) {
   console.error();
 }
@@ -132,53 +159,22 @@ mainMenu.forEach(menuItem => {
     });
 });
 
-// Function to set active state based on hash
-function setActiveFromHash() {
-    const hash = window.location.hash;
-    const companies = document.querySelectorAll('.__header_companyNameNest h1');
-    const projects = document.querySelectorAll('.__header_projectNameNest h1');
 
-    // Reset all to default (remove active)
-    companies.forEach(company => company.classList.remove('active'));
-    projects.forEach(project => project.classList.remove('active'));
+// Add click listeners to project and company links to move to sections
+const projectLinks = document.querySelectorAll('#projects-grid a[href^="#page"]');
 
-    if (hash === '') {
-        if (companies[0]) companies[0].classList.add('active');
-        if (projects[0]) projects[0].classList.add('active');
+projectLinks.forEach((link) => {
+  const href = link.getAttribute('href');
+  let index;
+  if (href === '#page1') index = 0;
+  else if (href === '#page2') index = 1;
+  else if (href === '#page3') index = 2;
+  else return;
+
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (fullpageInstance) {
+      fullpageInstance.moveTo(index);
     }
-    else if (hash === '#page1') {
-        if (companies[0]) companies[0].classList.add('active');
-        if (projects[0]) projects[0].classList.add('active');
-    } else if (hash === '#page2') {
-        if (companies[1]) companies[1].classList.add('active');
-        if (projects[1]) projects[1].classList.add('active');
-    } else if (hash === '#page3') {
-        if (companies[2]) companies[2].classList.add('active');
-        if (projects[2]) projects[2].classList.add('active');
-    }
-}
-
-// Set on load
-setActiveFromHash();
-
-// Set on hash change
-window.addEventListener('hashchange', setActiveFromHash);
-
-// Get the projects grid section
-const projectsSection = document.getElementById('projects-grid');
-
-// Get all __header_textDefinition elements in the section
-const headerTextDefs = projectsSection.querySelectorAll('.__header_textDefinition');
-
-// Count them
-console.log('Number of __header_textDefinition elements in projects section:', headerTextDefs.length);
-
-// Add click event listeners to toggle active state
-headerTextDefs.forEach(el => {
-    el.addEventListener('click', () => {
-        // Remove active class from all elements
-        headerTextDefs.forEach(other => other.classList.remove('active'));
-        // Add active class to the clicked element
-        el.classList.add('active');
-    });
+  });
 });
