@@ -125,6 +125,7 @@ function setActiveFromSection(index) {
     if (companies[2]) companies[2].classList.add('active');
     if (projects[2]) projects[2].classList.add('active');
   }
+  return index;
 }
 
 let fullpageInstance;
