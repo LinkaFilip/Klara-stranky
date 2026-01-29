@@ -135,7 +135,6 @@ try {
     scrollingSpeed: 700,
     navigation: false,
     isScrolling: true,
-    anchors: ['page1', 'page2', 'page3'],
     afterLoad: (origin, destination, direction) => {
       setActiveFromSection(destination);
     },
@@ -161,15 +160,10 @@ mainMenu.forEach(menuItem => {
 
 
 // Add click listeners to project and company links to move to sections
-const projectLinks = document.querySelectorAll('#projects-grid a[href^="#page"]');
+const projectLinks = document.querySelectorAll('#projects-grid a');
 
-projectLinks.forEach((link) => {
-  const href = link.getAttribute('href');
-  let index;
-  if (href === '#page1') index = 0;
-  else if (href === '#page2') index = 1;
-  else if (href === '#page3') index = 2;
-  else return;
+projectLinks.forEach((link, i) => {
+  const index = Math.floor(i / 2); // 0,0,1,1,2,2
 
   link.addEventListener('click', (e) => {
     e.preventDefault();
