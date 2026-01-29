@@ -113,11 +113,12 @@ try {
     isScrolling: true,
     //anchors: ['lastOne', 'makulatura', 'white_puppies'],
   });
+
   console.log(getTotalSections(fullpage.sections.sections));
 } catch (error) {
   console.error();
 }
-
+fetch('/my-fullpage/dist/my-fullpage.js.map').then(r => r.status)
 
 const mainMenu = document.querySelectorAll('.__header_mainMenu');
 
