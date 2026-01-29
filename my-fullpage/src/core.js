@@ -104,7 +104,6 @@ export class Fullpage {
 
     setTimeout(() => {
       this.currentSection = index;
-      console.log(`Section changed: from ${origin} to ${destination} (${direction})`);
       this.isScrolling = false;
 
       // Update hash

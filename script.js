@@ -163,3 +163,22 @@ setActiveFromHash();
 
 // Set on hash change
 window.addEventListener('hashchange', setActiveFromHash);
+
+// Get the projects grid section
+const projectsSection = document.getElementById('projects-grid');
+
+// Get all __header_textDefinition elements in the section
+const headerTextDefs = projectsSection.querySelectorAll('.__header_textDefinition');
+
+// Count them
+console.log('Number of __header_textDefinition elements in projects section:', headerTextDefs.length);
+
+// Add click event listeners to toggle active state
+headerTextDefs.forEach(el => {
+    el.addEventListener('click', () => {
+        // Remove active class from all elements
+        headerTextDefs.forEach(other => other.classList.remove('active'));
+        // Add active class to the clicked element
+        el.classList.add('active');
+    });
+});
