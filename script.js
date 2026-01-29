@@ -110,21 +110,14 @@ function setActiveFromSection(index) {
   const companies = document.querySelectorAll('.__header_companyNameNest h1');
   const projects = document.querySelectorAll('.__header_projectNameNest h1');
 
-  // Reset all to default (remove active)
+  // Reset all to default
   companies.forEach(company => company.classList.remove('active'));
   projects.forEach(project => project.classList.remove('active'));
 
-  // Set active based on index (0-based)
-  if (index === 0) {
-    if (companies[0]) companies[0].classList.add('active');
-    if (projects[0]) projects[0].classList.add('active');
-  } else if (index === 1) {
-    if (companies[1]) companies[1].classList.add('active');
-    if (projects[1]) projects[1].classList.add('active');
-  } else if (index === 2) {
-    if (companies[2]) companies[2].classList.add('active');
-    if (projects[2]) projects[2].classList.add('active');
-  }
+  // Activate the one at the given index (if it exists)
+  if (companies[index]) companies[index].classList.add('active');
+  if (projects[index]) projects[index].classList.add('active');
+
   return index;
 }
 
