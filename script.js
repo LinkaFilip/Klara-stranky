@@ -52,31 +52,27 @@ projectNames.forEach(name => {
         }
     });
 });
+
+
 const allHeaderTexts = Array.from(document.querySelectorAll('.__header_textDefinition'));
-const menuItems = allHeaderTexts.slice(0, 3); // First three are the menu items
+const menuItems = allHeaderTexts.slice(0, 3);
 
+// Define the sections in the same order as menuItems
+const sections = [
+  document.getElementById('projects-grid'),
+  document.getElementById('page-projects'),
+  document.getElementById('page-contact')
+];
 
+// Optional: specify display type per section
+sections[0].dataset.display = 'grid'; // projects-grid is a grid
 
-// Add menu functionality for navigation
 menuItems.forEach((item, index) => {
-    item.addEventListener('click', () => {
-        const projectsGrid = document.getElementById('projects-grid');
-        const pageProjects = document.getElementById('page-projects');
-        const pageContact = document.getElementById('page-contact');
-        if (index === 0) { // Klára Nováčková - show projects grid
-            projectsGrid.style.display = 'grid';
-            pageProjects.style.display = 'none';
-            pageContact.style.display = 'none';
-        } else if (index === 1) { // Projects - show projects text
-            projectsGrid.style.display = 'none';
-            pageProjects.style.display = 'block';
-            pageContact.style.display = 'none';
-        } else if (index === 2) { // contact - show contact text
-            projectsGrid.style.display = 'none';
-            pageProjects.style.display = 'none';
-            pageContact.style.display = 'block';
-        }
+  item.addEventListener('click', () => {
+    sections.forEach((section, i) => {
+      section.style.display = (i === index) ? (section.dataset.display || 'block') : 'none';
     });
+  });
 });
 
 /*gsap.registerPlugin(ScrollTrigger);
