@@ -3,11 +3,8 @@ const path = require('path');
 module.exports = {
   entry: './src/index.js',
   output: {
-    filename: 'my-fullpage.js',
     path: path.resolve(__dirname, 'dist'),
-    devtoolModuleFilenameTemplate: (info) => {
-      return path.basename(info.resourcePath);
-    }
+    filename: 'my-fullpage.js'
   },
   devtool: {
     sourceRoot: '../src'
