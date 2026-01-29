@@ -1,3 +1,5 @@
+import { getTotalSections } from "./my-fullpage/src/sections";
+
 // Create a custom cursor element
 const cursor = document.createElement('span');
 cursor.className = 'cursor';
@@ -112,7 +114,7 @@ try {
     isScrolling: true,
     //anchors: ['lastOne', 'makulatura', 'white_puppies'],
   });
-  console.log();
+  console.log(getTotalSections(fullpage.sections.sections));
 } catch (error) {
   console.error();
 }

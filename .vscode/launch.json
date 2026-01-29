@@ -9,7 +9,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
-            "url": "file:///C:/Users/linka/Documents/GitHub/Klara-stranky/index.html",
+            "url": "http://localhost:8000/",
             "webRoot": "${workspaceFolder}"
         }
     ]

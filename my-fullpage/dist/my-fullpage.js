@@ -1,678 +1,654 @@
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./src/core.js"
+/*!*********************!*\
+  !*** ./src/core.js ***!
+  \*********************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Fullpage: () => (/* binding */ Fullpage)
+/* harmony export */ });
+/* harmony import */ var _sections_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./sections.js */ "./src/sections.js");
+/* harmony import */ var _scrolling_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./scrolling.js */ "./src/scrolling.js");
+/* harmony import */ var _navigation_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./navigation.js */ "./src/navigation.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+// Main Fullpage class
+
+
+
+
+var Fullpage = /*#__PURE__*/function () {
+  function Fullpage(container) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    _classCallCheck(this, Fullpage);
+    this.container = typeof container === "string" ? document.querySelector(container) : container;
+    //console.log("Container:", this.container);
+    if (!this.container) {
+      throw new Error("Container not found");
+    }
+    this.options = _objectSpread({
+      sections: ".section",
+      scrollingSpeed: 700,
+      navigation: true,
+      anchors: [],
+      onLeave: null,
+      afterLoad: null
+    }, options);
+    this.sections = null;
+    this.scrolling = null;
+    this.navigation = null;
+    this.currentSection = 0;
+    this.isScrolling = false;
+    this.init();
+  }
+  return _createClass(Fullpage, [{
+    key: "init",
+    value: function init() {
+      var _this = this;
+      // Prevent window scrolling
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+
+      // Handle initial hash
+      // Set container styles
+      this.container.style.overflow = "hidden";
+      this.container.style.height = "100vh";
+
+      // Initialize modules
+      this.sections = new _sections_js__WEBPACK_IMPORTED_MODULE_0__.Sections(this.container, this.options.sections);
+
+      // Set section ids for anchors
+      this.sections.sections.forEach(function (section, index) {
+        if (_this.options.anchors && _this.options.anchors[index]) {
+          section.id = _this.options.anchors[index];
+        }
+      });
+      this.scrolling = new _scrolling_js__WEBPACK_IMPORTED_MODULE_1__.Scrolling(this);
+      if (this.options.navigation) {
+        this.navigation = new _navigation_js__WEBPACK_IMPORTED_MODULE_2__.Navigation(this);
+      }
+
+      // Set initial position
+      this.container.style.transform = "translateY(0px)";
+
+      // Bind hash change
+      this.handleHashOnLoad();
+      this.bindHashChange();
+
+      // Call afterLoad for initial section
+      if (this.options.afterLoad) {
+        this.options.afterLoad(null, this.currentSection, "none");
+      }
+    }
+  }, {
+    key: "moveTo",
+    value: function moveTo(index) {
+      var _this2 = this;
+      if (!this.sections) return;
+      var total = this.sections.getTotalSections();
+      if (index < 0 || index >= total) return;
+      if (this.isScrolling || index === this.currentSection) return;
+      if (index < 0 || index >= this.sections.getTotalSections() || this.isScrolling || index === this.currentSection) return;
+      var targetY = index * window.innerHeight;
+
+      // Call onLeave
+      if (this.options.onLeave) {
+        var _direction = index > this.currentSection ? "down" : "up";
+        this.options.onLeave(this.currentSection, index, _direction);
+      }
+      this.isScrolling = true;
+      this.scrolling.smoothScrollTo(targetY);
+      var origin = this.currentSection;
+      var destination = index;
+      var direction = destination > origin ? "down" : "up";
+      setTimeout(function () {
+        _this2.currentSection = index;
+        _this2.isScrolling = false;
+
+        // Update hash
+        _this2.updateHash(index);
+
+        // Update navigation
+        if (_this2.navigation) {
+          _this2.navigation.updateActive();
+        }
+
+        // Call afterLoad
+        if (_this2.options.afterLoad) {
+          _this2.options.afterLoad(origin, destination, direction);
+        }
+      }, this.options.scrollingSpeed);
+    }
+  }, {
+    key: "moveSectionUp",
+    value: function moveSectionUp() {
+      this.moveTo(this.currentSection - 1);
+    }
+  }, {
+    key: "moveSectionDown",
+    value: function moveSectionDown() {
+      this.moveTo(this.currentSection + 1);
+    }
+  }, {
+    key: "setAllowScrolling",
+    value: function setAllowScrolling(allow) {
+      this.scrolling.setAllowScrolling(allow);
+    }
+  }, {
+    key: "destroy",
+    value: function destroy() {
+      // Clean up
+      if (this.navigation) {
+        this.navigation.destroy();
+      }
+      // Remove event listeners if needed
+      this.container.style.overflow = "";
+      this.container.style.height = "";
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+    }
+  }, {
+    key: "handleHashOnLoad",
+    value: function handleHashOnLoad() {
+      if (this.isScrolling) return;
+      var hash = window.location.hash.substring(1);
+      if (!hash) return;
+      var index = this.options.anchors.indexOf(hash);
+      if (index === -1) return;
+      this.moveTo(index);
+    }
+  }, {
+    key: "updateHash",
+    value: function updateHash(index) {
+      if (this.options.anchors && this.options.anchors[index]) {
+        window.location.hash = this.options.anchors[index];
+      }
+    }
+  }, {
+    key: "bindHashChange",
+    value: function bindHashChange() {
+      var _this3 = this;
+      window.addEventListener("hashchange", function () {
+        _this3.handleHashOnLoad();
+      });
+    }
+  }]);
+}();
+
+/***/ },
+
+/***/ "./src/navigation.js"
+/*!***************************!*\
+  !*** ./src/navigation.js ***!
+  \***************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Navigation: () => (/* binding */ Navigation)
+/* harmony export */ });
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+// Navigation module for dots and indicators
+
+var Navigation = /*#__PURE__*/function () {
+  function Navigation(fullpageInstance) {
+    _classCallCheck(this, Navigation);
+    this.fullpage = fullpageInstance;
+    this.navContainer = null;
+    this.init();
+  }
+  return _createClass(Navigation, [{
+    key: "init",
+    value: function init() {
+      this.createNavigation();
+      this.bindEvents();
+      this.updateActive();
+    }
+  }, {
+    key: "createNavigation",
+    value: function createNavigation() {
+      this.navContainer = document.createElement('div');
+      this.navContainer.className = 'fp-nav';
+      this.navContainer.style.position = 'fixed';
+      this.navContainer.style.right = '20px';
+      this.navContainer.style.top = '50%';
+      this.navContainer.style.transform = 'translateY(-50%)';
+      this.navContainer.style.zIndex = '1000';
+      for (var i = 0; i < this.fullpage.sections.getTotalSections(); i++) {
+        var dot = document.createElement('div');
+        dot.className = 'fp-nav-dot';
+        dot.style.width = '10px';
+        dot.style.height = '10px';
+        dot.style.borderRadius = '50%';
+        dot.style.backgroundColor = '#ccc';
+        dot.style.margin = '5px 0';
+        dot.style.cursor = 'pointer';
+        dot.dataset.index = i;
+        this.navContainer.appendChild(dot);
+      }
+      document.body.appendChild(this.navContainer);
+    }
+  }, {
+    key: "bindEvents",
+    value: function bindEvents() {
+      var _this = this;
+      this.navContainer.addEventListener('click', function (e) {
+        if (e.target.classList.contains('fp-nav-dot')) {
+          var index = parseInt(e.target.dataset.index);
+          _this.fullpage.moveTo(index);
+        }
+      });
+    }
+  }, {
+    key: "updateActive",
+    value: function updateActive() {
+      var _this2 = this;
+      var dots = this.navContainer.querySelectorAll('.fp-nav-dot');
+      dots.forEach(function (dot, index) {
+        if (index === _this2.fullpage.currentSection) {
+          dot.style.backgroundColor = '#333';
+        } else {
+          dot.style.backgroundColor = '#ccc';
+        }
+      });
+    }
+  }, {
+    key: "destroy",
+    value: function destroy() {
+      if (this.navContainer) {
+        document.body.removeChild(this.navContainer);
+      }
+    }
+  }]);
+}();
+
+/***/ },
+
+/***/ "./src/scrolling.js"
+/*!**************************!*\
+  !*** ./src/scrolling.js ***!
+  \**************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Scrolling: () => (/* binding */ Scrolling)
+/* harmony export */ });
+/* harmony import */ var _utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils.js */ "./src/utils.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+// Scrolling management module
+
+
+var Scrolling = /*#__PURE__*/function () {
+  function Scrolling(fullpageInstance) {
+    _classCallCheck(this, Scrolling);
+    this.fullpage = fullpageInstance;
+    this.isScrolling = false;
+    this.allowScrolling = true;
+    this.init();
+  }
+  return _createClass(Scrolling, [{
+    key: "init",
+    value: function init() {
+      this.bindEvents();
+    }
+  }, {
+    key: "bindEvents",
+    value: function bindEvents() {
+      // Wheel event
+      this.fullpage.container.addEventListener('wheel', (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.throttle)(this.handleWheel.bind(this), 100), {
+        passive: false
+      });
+
+      // Keyboard events
+      document.addEventListener('keydown', this.handleKeydown.bind(this));
+
+      // Touch events
+      this.fullpage.container.addEventListener('touchstart', this.handleTouchStart.bind(this), {
+        passive: false
+      });
+      this.fullpage.container.addEventListener('touchmove', this.handleTouchMove.bind(this), {
+        passive: false
+      });
+      this.fullpage.container.addEventListener('touchend', this.handleTouchEnd.bind(this), {
+        passive: false
+      });
+    }
+  }, {
+    key: "handleWheel",
+    value: function handleWheel(e) {
+      if (!this.allowScrolling || this.isScrolling) return;
+      e.preventDefault();
+      var direction = (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.getScrollDirection)(e);
+      if (direction === 'down') {
+        this.fullpage.moveSectionDown();
+      } else if (direction === 'up') {
+        this.fullpage.moveSectionUp();
+      }
+    }
+  }, {
+    key: "handleKeydown",
+    value: function handleKeydown(e) {
+      if (!this.allowScrolling || this.isScrolling) return;
+      if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+        e.preventDefault();
+        this.fullpage.moveSectionDown();
+      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+        e.preventDefault();
+        this.fullpage.moveSectionUp();
+      }
+    }
+  }, {
+    key: "handleTouchStart",
+    value: function handleTouchStart(e) {
+      this.touchStartY = e.touches[0].clientY;
+    }
+  }, {
+    key: "handleTouchMove",
+    value: function handleTouchMove(e) {
+      if (!this.allowScrolling || this.isScrolling) return;
+      e.preventDefault();
+      var touchCurrentY = e.touches[0].clientY;
+      var diff = this.touchStartY - touchCurrentY;
+      if (Math.abs(diff) > 50) {
+        // threshold
+        if (diff > 0) {
+          this.fullpage.moveSectionDown();
+        } else {
+          this.fullpage.moveSectionUp();
+        }
+        this.touchStartY = touchCurrentY;
+      }
+    }
+  }, {
+    key: "handleTouchEnd",
+    value: function handleTouchEnd(e) {
+      // Reset if needed
+    }
+  }, {
+    key: "smoothScrollTo",
+    value: function smoothScrollTo(targetY) {
+      var _this = this;
+      if (this.isScrolling) return;
+      this.isScrolling = true;
+      var currentTransform = this.fullpage.container.style.transform || 'translateY(0px)';
+      var startY = parseFloat(currentTransform.match(/translateY\(([^)]+)\)/)[1]);
+      (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.animate)(startY, -targetY, this.fullpage.options.scrollingSpeed, function (currentY) {
+        _this.fullpage.container.style.transform = "translateY(".concat(currentY, "px)");
+      });
+      setTimeout(function () {
+        _this.isScrolling = false;
+      }, this.fullpage.options.scrollingSpeed);
+    }
+  }, {
+    key: "setAllowScrolling",
+    value: function setAllowScrolling(allow) {
+      this.allowScrolling = allow;
+    }
+  }]);
+}();
+
+/***/ },
+
+/***/ "./src/sections.js"
+/*!*************************!*\
+  !*** ./src/sections.js ***!
+  \*************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Sections: () => (/* binding */ Sections),
+/* harmony export */   getTotalSections: () => (/* binding */ getTotalSections)
+/* harmony export */ });
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+// Sections management module
+
+var Sections = /*#__PURE__*/function () {
+  function Sections(container, selector) {
+    _classCallCheck(this, Sections);
+    this.container = container;
+    this.selector = selector;
+    this.sections = [];
+    this.init();
+    this.getTotalSections();
+  }
+  return _createClass(Sections, [{
+    key: "init",
+    value: function init() {
+      this.findSections();
+      //console.log('Sections found:', this.sections.length);
+      this.setSectionHeights();
+      this.positionSections();
+    }
+  }, {
+    key: "findSections",
+    value: function findSections() {
+      var queryResult = this.container.querySelectorAll(this.selector);
+      //console.log('Query result:', queryResult);
+      this.sections = Array.from(queryResult);
+    }
+  }, {
+    key: "setSectionHeights",
+    value: function setSectionHeights() {
+      this.sections.forEach(function (section) {
+        section.style.height = '100vh';
+        section.style.overflow = 'hidden';
+      });
+    }
+  }, {
+    key: "positionSections",
+    value: function positionSections() {
+      this.container.style.position = 'relative';
+      this.sections.forEach(function (section, index) {
+        section.style.height = '100vh';
+        section.style.width = '100%';
+      });
+    }
+  }, {
+    key: "getSection",
+    value: function getSection(index) {
+      return this.sections[index];
+    }
+  }, {
+    key: "getSectionIndex",
+    value: function getSectionIndex(section) {
+      return this.sections.indexOf(section);
+    }
+  }, {
+    key: "getTotalSections",
+    value: function getTotalSections() {
+      return this.sections.length;
+    }
+  }, {
+    key: "updateSections",
+    value: function updateSections() {
+      this.init();
+    }
+  }]);
+}();
+var getTotalSections = function getTotalSections(sectionsArray) {
+  return sectionsArray.length;
+};
+
+/***/ },
+
+/***/ "./src/utils.js"
+/*!**********************!*\
+  !*** ./src/utils.js ***!
+  \**********************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   animate: () => (/* binding */ animate),
+/* harmony export */   debounce: () => (/* binding */ debounce),
+/* harmony export */   easeInOutQuad: () => (/* binding */ easeInOutQuad),
+/* harmony export */   getScrollDirection: () => (/* binding */ getScrollDirection),
+/* harmony export */   isMobile: () => (/* binding */ isMobile),
+/* harmony export */   throttle: () => (/* binding */ throttle)
+/* harmony export */ });
+// Utility functions for the fullpage library
+
+var debounce = function debounce(func, wait) {
+  var timeout;
+  return function executedFunction() {
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    var later = function later() {
+      clearTimeout(timeout);
+      func.apply(void 0, args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+};
+var throttle = function throttle(func, limit) {
+  var inThrottle;
+  return function () {
+    var args = arguments;
+    var context = this;
+    if (!inThrottle) {
+      func.apply(context, args);
+      inThrottle = true;
+      setTimeout(function () {
+        return inThrottle = false;
+      }, limit);
+    }
+  };
+};
+var isMobile = function isMobile() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+};
+var getScrollDirection = function getScrollDirection(e) {
+  if (e.deltaY > 0) return 'down';
+  if (e.deltaY < 0) return 'up';
+  return null;
+};
+var easeInOutQuad = function easeInOutQuad(t) {
+  return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+};
+var animate = function animate(start, end, duration, callback) {
+  var startTime = performance.now();
+  var _animateFrame = function animateFrame(currentTime) {
+    var elapsed = currentTime - startTime;
+    var progress = Math.min(elapsed / duration, 1);
+    var easedProgress = easeInOutQuad(progress);
+    var currentValue = start + (end - start) * easedProgress;
+    callback(currentValue);
+    if (progress < 1) {
+      requestAnimationFrame(_animateFrame);
+    }
+  };
+  requestAnimationFrame(_animateFrame);
+};
+
+/***/ }
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Check if module exists (development only)
+/******/ 		if (__webpack_modules__[moduleId] === undefined) {
+/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			e.code = 'MODULE_NOT_FOUND';
+/******/ 			throw e;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
 (() => {
-  "use strict";
-  function t(n) {
-    return (
-      (t =
-        "function" == typeof Symbol && "symbol" == typeof Symbol.iterator
-          ? function (t) {
-              return typeof t;
-            }
-          : function (t) {
-              return t &&
-                "function" == typeof Symbol &&
-                t.constructor === Symbol &&
-                t !== Symbol.prototype
-                ? "symbol"
-                : typeof t;
-            }),
-      t(n)
-    );
-  }
-  function n(t, n) {
-    for (var o = 0; o < n.length; o++) {
-      var i = n[o];
-      ((i.enumerable = i.enumerable || !1),
-        (i.configurable = !0),
-        "value" in i && (i.writable = !0),
-        Object.defineProperty(t, e(i.key), i));
-    }
-  }
-  function e(n) {
-    var e = (function (n) {
-      if ("object" != t(n) || !n) return n;
-      var e = n[Symbol.toPrimitive];
-      if (void 0 !== e) {
-        var o = e.call(n, "string");
-        if ("object" != t(o)) return o;
-        throw new TypeError("@@toPrimitive must return a primitive value.");
-      }
-      return String(n);
-    })(n);
-    return "symbol" == t(e) ? e : e + "";
-  }
-  var o = (function () {
-    return (
-      (t = function t(n, e) {
-        (!(function (t, n) {
-          if (!(t instanceof n))
-            throw new TypeError("Cannot call a class as a function");
-        })(this, t),
-          (this.container = n),
-          (this.selector = e),
-          (this.sections = []),
-          this.init(),
-          this.getTotalSections());
-      }),
-      (e = [
-        {
-          key: "init",
-          value: function () {
-            (this.findSections(),
-              this.setSectionHeights(),
-              this.positionSections());
-          },
-        },
-        {
-          key: "findSections",
-          value: function () {
-            var t = this.container.querySelectorAll(this.selector);
-            (this.sections = Array.from(t));
-          },
-        },
-        {
-          key: "setSectionHeights",
-          value: function () {
-            this.sections.forEach(function (t) {
-              ((t.style.height = "100vh"), (t.style.overflow = "hidden"));
-            });
-          },
-        },
-        {
-          key: "positionSections",
-          value: function () {
-            ((this.container.style.position = "relative"),
-              this.sections.forEach(function (t, n) {
-                ((t.style.height = "100vh"), (t.style.width = "100%"));
-              }));
-          },
-        },
-        {
-          key: "getSection",
-          value: function (t) {
-            return this.sections[t];
-          },
-        },
-        {
-          key: "getSectionIndex",
-          value: function (t) {
-            return this.sections.indexOf(t);
-          },
-        },
-        {
-          key: "getTotalSections",
-          value: function () {
-            return this.sections.length;
-          },
-        },
-        {
-          key: "updateSections",
-          value: function () {
-            this.init();
-          },
-        },
-      ]) && n(t.prototype, e),
-      Object.defineProperty(t, "prototype", { writable: !1 }),
-      t
-    );
-    var t, e;
-  })();
-  function i(t) {
-    return (
-      (i =
-        "function" == typeof Symbol && "symbol" == typeof Symbol.iterator
-          ? function (t) {
-              return typeof t;
-            }
-          : function (t) {
-              return t &&
-                "function" == typeof Symbol &&
-                t.constructor === Symbol &&
-                t !== Symbol.prototype
-                ? "symbol"
-                : typeof t;
-            }),
-      i(t)
-    );
-  }
-  function r(t, n) {
-    for (var e = 0; e < n.length; e++) {
-      var o = n[e];
-      ((o.enumerable = o.enumerable || !1),
-        (o.configurable = !0),
-        "value" in o && (o.writable = !0),
-        Object.defineProperty(t, s(o.key), o));
-    }
-  }
-  function s(t) {
-    var n = (function (t) {
-      if ("object" != i(t) || !t) return t;
-      var n = t[Symbol.toPrimitive];
-      if (void 0 !== n) {
-        var e = n.call(t, "string");
-        if ("object" != i(e)) return e;
-        throw new TypeError("@@toPrimitive must return a primitive value.");
-      }
-      return String(t);
-    })(t);
-    return "symbol" == i(n) ? n : n + "";
-  }
-  var a = (function () {
-    return (
-      (t = function t(n) {
-        (!(function (t, n) {
-          if (!(t instanceof n))
-            throw new TypeError("Cannot call a class as a function");
-        })(this, t),
-          (this.fullpage = n),
-          (this.isScrolling = !1),
-          (this.allowScrolling = !0),
-          this.init());
-      }),
-      (n = [
-        {
-          key: "init",
-          value: function () {
-            this.bindEvents();
-          },
-        },
-        {
-          key: "bindEvents",
-          value: function () {
-            var t, n;
-            (this.fullpage.container.addEventListener(
-              "wheel",
-              ((t = this.handleWheel.bind(this)),
-              function () {
-                var e = arguments;
-                n ||
-                  (t.apply(this, e),
-                  (n = !0),
-                  setTimeout(function () {
-                    return (n = !1);
-                  }, 100));
-              }),
-              { passive: !1 },
-            ),
-              document.addEventListener(
-                "keydown",
-                this.handleKeydown.bind(this),
-              ),
-              this.fullpage.container.addEventListener(
-                "touchstart",
-                this.handleTouchStart.bind(this),
-                { passive: !1 },
-              ),
-              this.fullpage.container.addEventListener(
-                "touchmove",
-                this.handleTouchMove.bind(this),
-                { passive: !1 },
-              ),
-              this.fullpage.container.addEventListener(
-                "touchend",
-                this.handleTouchEnd.bind(this),
-                { passive: !1 },
-              ));
-          },
-        },
-        {
-          key: "handleWheel",
-          value: function (t) {
-            if (this.allowScrolling && !this.isScrolling) {
-              t.preventDefault();
-              var n = (function (t) {
-                return t.deltaY > 0 ? "down" : t.deltaY < 0 ? "up" : null;
-              })(t);
-              "down" === n
-                ? this.fullpage.moveSectionDown()
-                : "up" === n && this.fullpage.moveSectionUp();
-            }
-          },
-        },
-        {
-          key: "handleKeydown",
-          value: function (t) {
-            this.allowScrolling &&
-              !this.isScrolling &&
-              ("ArrowDown" === t.key || "PageDown" === t.key
-                ? (t.preventDefault(), this.fullpage.moveSectionDown())
-                : ("ArrowUp" !== t.key && "PageUp" !== t.key) ||
-                  (t.preventDefault(), this.fullpage.moveSectionUp()));
-          },
-        },
-        {
-          key: "handleTouchStart",
-          value: function (t) {
-            this.touchStartY = t.touches[0].clientY;
-          },
-        },
-        {
-          key: "handleTouchMove",
-          value: function (t) {
-            if (this.allowScrolling && !this.isScrolling) {
-              t.preventDefault();
-              var n = t.touches[0].clientY,
-                e = this.touchStartY - n;
-              Math.abs(e) > 50 &&
-                (e > 0
-                  ? this.fullpage.moveSectionDown()
-                  : this.fullpage.moveSectionUp(),
-                (this.touchStartY = n));
-            }
-          },
-        },
-        { key: "handleTouchEnd", value: function (t) {} },
-        {
-          key: "smoothScrollTo",
-          value: function (t) {
-            var n = this;
-            if (!this.isScrolling) {
-              this.isScrolling = !0;
-              var e,
-                o,
-                i,
-                r,
-                s,
-                a,
-                l =
-                  this.fullpage.container.style.transform || "translateY(0px)",
-                c = parseFloat(l.match(/translateY\(([^)]+)\)/)[1]);
-              ((e = c),
-                (o = -t),
-                (i = this.fullpage.options.scrollingSpeed),
-                (r = function (t) {
-                  n.fullpage.container.style.transform = "translateY(".concat(
-                    t,
-                    "px)",
-                  );
-                }),
-                (s = performance.now()),
-                (a = function (t) {
-                  var n,
-                    l = t - s,
-                    c = Math.min(l / i, 1),
-                    u = (n = c) < 0.5 ? 2 * n * n : (4 - 2 * n) * n - 1;
-                  (r(e + (o - e) * u), c < 1 && requestAnimationFrame(a));
-                }),
-                requestAnimationFrame(a),
-                setTimeout(function () {
-                  n.isScrolling = !1;
-                }, this.fullpage.options.scrollingSpeed));
-            }
-          },
-        },
-        {
-          key: "setAllowScrolling",
-          value: function (t) {
-            this.allowScrolling = t;
-          },
-        },
-      ]),
-      n && r(t.prototype, n),
-      Object.defineProperty(t, "prototype", { writable: !1 }),
-      t
-    );
-    var t, n;
-  })();
-  function l(t) {
-    return (
-      (l =
-        "function" == typeof Symbol && "symbol" == typeof Symbol.iterator
-          ? function (t) {
-              return typeof t;
-            }
-          : function (t) {
-              return t &&
-                "function" == typeof Symbol &&
-                t.constructor === Symbol &&
-                t !== Symbol.prototype
-                ? "symbol"
-                : typeof t;
-            }),
-      l(t)
-    );
-  }
-  function c(t, n) {
-    for (var e = 0; e < n.length; e++) {
-      var o = n[e];
-      ((o.enumerable = o.enumerable || !1),
-        (o.configurable = !0),
-        "value" in o && (o.writable = !0),
-        Object.defineProperty(t, u(o.key), o));
-    }
-  }
-  function u(t) {
-    var n = (function (t) {
-      if ("object" != l(t) || !t) return t;
-      var n = t[Symbol.toPrimitive];
-      if (void 0 !== n) {
-        var e = n.call(t, "string");
-        if ("object" != l(e)) return e;
-        throw new TypeError("@@toPrimitive must return a primitive value.");
-      }
-      return String(t);
-    })(t);
-    return "symbol" == l(n) ? n : n + "";
-  }
-  var h = (function () {
-    return (
-      (t = function t(n) {
-        (!(function (t, n) {
-          if (!(t instanceof n))
-            throw new TypeError("Cannot call a class as a function");
-        })(this, t),
-          (this.fullpage = n),
-          (this.navContainer = null),
-          this.init());
-      }),
-      (n = [
-        {
-          key: "init",
-          value: function () {
-            (this.createNavigation(), this.bindEvents(), this.updateActive());
-          },
-        },
-        {
-          key: "createNavigation",
-          value: function () {
-            ((this.navContainer = document.createElement("div")),
-              (this.navContainer.className = "fp-nav"),
-              (this.navContainer.style.position = "fixed"),
-              (this.navContainer.style.right = "20px"),
-              (this.navContainer.style.top = "50%"),
-              (this.navContainer.style.transform = "translateY(-50%)"),
-              (this.navContainer.style.zIndex = "1000"));
-            for (
-              var t = 0;
-              t < this.fullpage.sections.getTotalSections();
-              t++
-            ) {
-              var n = document.createElement("div");
-              ((n.className = "fp-nav-dot"),
-                (n.style.width = "10px"),
-                (n.style.height = "10px"),
-                (n.style.borderRadius = "50%"),
-                (n.style.backgroundColor = "#ccc"),
-                (n.style.margin = "5px 0"),
-                (n.style.cursor = "pointer"),
-                (n.dataset.index = t),
-                this.navContainer.appendChild(n));
-            }
-            document.body.appendChild(this.navContainer);
-          },
-        },
-        {
-          key: "bindEvents",
-          value: function () {
-            var t = this;
-            this.navContainer.addEventListener("click", function (n) {
-              if (n.target.classList.contains("fp-nav-dot")) {
-                var e = parseInt(n.target.dataset.index);
-                t.fullpage.moveTo(e);
-              }
-            });
-          },
-        },
-        {
-          key: "updateActive",
-          value: function () {
-            var t = this;
-            this.navContainer
-              .querySelectorAll(".fp-nav-dot")
-              .forEach(function (n, e) {
-                e === t.fullpage.currentSection
-                  ? (n.style.backgroundColor = "#333")
-                  : (n.style.backgroundColor = "#ccc");
-              });
-          },
-        },
-        {
-          key: "destroy",
-          value: function () {
-            this.navContainer && document.body.removeChild(this.navContainer);
-          },
-        },
-      ]),
-      n && c(t.prototype, n),
-      Object.defineProperty(t, "prototype", { writable: !1 }),
-      t
-    );
-    var t, n;
-  })();
-  function f(t) {
-    return (
-      (f =
-        "function" == typeof Symbol && "symbol" == typeof Symbol.iterator
-          ? function (t) {
-              return typeof t;
-            }
-          : function (t) {
-              return t &&
-                "function" == typeof Symbol &&
-                t.constructor === Symbol &&
-                t !== Symbol.prototype
-                ? "symbol"
-                : typeof t;
-            }),
-      f(t)
-    );
-  }
-  function v(t, n) {
-    var e = Object.keys(t);
-    if (Object.getOwnPropertySymbols) {
-      var o = Object.getOwnPropertySymbols(t);
-      (n &&
-        (o = o.filter(function (n) {
-          return Object.getOwnPropertyDescriptor(t, n).enumerable;
-        })),
-        e.push.apply(e, o));
-    }
-    return e;
-  }
-  function y(t, n, e) {
-    return (
-      (n = d(n)) in t
-        ? Object.defineProperty(t, n, {
-            value: e,
-            enumerable: !0,
-            configurable: !0,
-            writable: !0,
-          })
-        : (t[n] = e),
-      t
-    );
-  }
-  function p(t, n) {
-    for (var e = 0; e < n.length; e++) {
-      var o = n[e];
-      ((o.enumerable = o.enumerable || !1),
-        (o.configurable = !0),
-        "value" in o && (o.writable = !0),
-        Object.defineProperty(t, d(o.key), o));
-    }
-  }
-  function d(t) {
-    var n = (function (t) {
-      if ("object" != f(t) || !t) return t;
-      var n = t[Symbol.toPrimitive];
-      if (void 0 !== n) {
-        var e = n.call(t, "string");
-        if ("object" != f(e)) return e;
-        throw new TypeError("@@toPrimitive must return a primitive value.");
-      }
-      return String(t);
-    })(t);
-    return "symbol" == f(n) ? n : n + "";
-  }
-  var g = (function () {
-    return (
-      (t = function t(n) {
-        var e =
-          arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : {};
-        if (
-          ((function (t, n) {
-            if (!(t instanceof n))
-              throw new TypeError("Cannot call a class as a function");
-          })(this, t),
-          (this.container =
-            "string" == typeof n ? document.querySelector(n) : n),
-          !this.container)
-        )
-          throw new Error("Container not found");
-        ((this.options = (function (t) {
-          for (var n = 1; n < arguments.length; n++) {
-            var e = null != arguments[n] ? arguments[n] : {};
-            n % 2
-              ? v(Object(e), !0).forEach(function (n) {
-                  y(t, n, e[n]);
-                })
-              : Object.getOwnPropertyDescriptors
-                ? Object.defineProperties(
-                    t,
-                    Object.getOwnPropertyDescriptors(e),
-                  )
-                : v(Object(e)).forEach(function (n) {
-                    Object.defineProperty(
-                      t,
-                      n,
-                      Object.getOwnPropertyDescriptor(e, n),
-                    );
-                  });
-          }
-          return t;
-        })(
-          {
-            sections: ".section",
-            scrollingSpeed: 700,
-            navigation: !0,
-            anchors: [],
-            onLeave: null,
-            afterLoad: null,
-          },
-          e,
-        )),
-          (this.sections = null),
-          (this.scrolling = null),
-          (this.navigation = null),
-          (this.currentSection = 0),
-          (this.isScrolling = !1),
-          this.init());
-      }),
-      (n = [
-        {
-          key: "init",
-          value: function () {
-            var t = this;
-            ((document.documentElement.style.overflow = "hidden"),
-              (document.body.style.overflow = "hidden"),
-              this.handleHashOnLoad(),
-              (this.container.style.overflow = "hidden"),
-              (this.container.style.height = "100vh"),
-              (this.sections = new o(this.container, this.options.sections)),
-              this.sections.sections.forEach(function (n, e) {
-                t.options.anchors &&
-                  t.options.anchors[e] &&
-                  (n.id = t.options.anchors[e]);
-              }),
-              (this.scrolling = new a(this)),
-              this.options.navigation && (this.navigation = new h(this)),
-              (this.container.style.transform = "translateY(0px)"),
-              this.bindHashChange(),
-              this.options.afterLoad &&
-                this.options.afterLoad(null, this.currentSection, "none"));
-          },
-        },
-        {
-          key: "moveTo",
-          value: function (t) {
-            var n = this;
-            if (
-              !(
-                t < 0 ||
-                t >= this.sections.getTotalSections() ||
-                this.isScrolling ||
-                t === this.currentSection
-              )
-            ) {
-              var e = t * window.innerHeight;
-              if (this.options.onLeave) {
-                var o = t > this.currentSection ? "down" : "up";
-                this.options.onLeave(this.currentSection, t, o);
-              }
-              ((this.isScrolling = !0), this.scrolling.smoothScrollTo(e));
-              var i = this.currentSection,
-                r = t,
-                s = r > i ? "down" : "up";
-              setTimeout(function () {
-                ((n.currentSection = t),
-                  (n.isScrolling = !1),
-                  n.updateHash(t),
-                  n.navigation && n.navigation.updateActive(),
-                  n.options.afterLoad && n.options.afterLoad(i, r, s));
-              }, this.options.scrollingSpeed);
-            }
-          },
-        },
-        {
-          key: "moveSectionUp",
-          value: function () {
-            this.moveTo(this.currentSection - 1);
-          },
-        },
-        {
-          key: "moveSectionDown",
-          value: function () {
-            this.moveTo(this.currentSection + 1);
-          },
-        },
-        {
-          key: "setAllowScrolling",
-          value: function (t) {
-            this.scrolling.setAllowScrolling(t);
-          },
-        },
-        {
-          key: "destroy",
-          value: function () {
-            (this.navigation && this.navigation.destroy(),
-              (this.container.style.overflow = ""),
-              (this.container.style.height = ""),
-              (document.documentElement.style.overflow = ""),
-              (document.body.style.overflow = ""));
-          },
-        },
-        {
-          key: "handleHashOnLoad",
-          value: function () {
-            var t = window.location.hash.substring(1);
-            if (this.options.anchors && this.options.anchors.includes(t)) {
-              var n = this.options.anchors.indexOf(t);
-              this.moveTo(n);
-            }
-          },
-        },
-        {
-          key: "updateHash",
-          value: function (t) {
-            this.options.anchors &&
-              this.options.anchors[t] &&
-              (window.location.hash = this.options.anchors[t]);
-          },
-        },
-        {
-          key: "bindHashChange",
-          value: function () {
-            var t = this;
-            window.addEventListener("hashchange", function () {
-              t.handleHashOnLoad();
-            });
-          },
-        },
-      ]) && p(t.prototype, n),
-      Object.defineProperty(t, "prototype", { writable: !1 }),
-      t
-    );
-    var t, n;
-  })();
-  window.Fullpage = g;
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _core_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core.js */ "./src/core.js");
+// Main entry point for the fullpage library
+
+
+window.Fullpage = _core_js__WEBPACK_IMPORTED_MODULE_0__.Fullpage;
 })();
+
+/******/ })()
+;
 //# sourceMappingURL=my-fullpage.js.map

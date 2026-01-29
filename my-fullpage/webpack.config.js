@@ -4,7 +4,13 @@ module.exports = {
   entry: './src/index.js',
   output: {
     filename: 'my-fullpage.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
+    devtoolModuleFilenameTemplate: (info) => {
+      return path.basename(info.resourcePath);
+    }
+  },
+  devtool: {
+    sourceRoot: '../src'
   },
   module: {
     rules: [
