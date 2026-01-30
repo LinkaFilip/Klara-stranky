@@ -130,7 +130,6 @@ try {
     },
   });
 
-  console.log(getTotalSections(fullpageInstance.sections.sections));
 } catch (error) {
   console.error();
 }
