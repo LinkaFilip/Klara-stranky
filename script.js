@@ -118,7 +118,6 @@ function setActiveFromSection(index) {
 }
 
 let fullpageInstance;
-let currentCompanyIndex = 0; // Track which company/section we're on
 
 try {
   fullpageInstance = new Fullpage('#fullpage', {
@@ -127,22 +126,33 @@ try {
     navigation: false,
     isScrolling: true,
     afterLoad: (origin, destination, direction) => {
-      // Only allow scrolling between different companies, not within the same company's projects
-      // Group projects by company: Company 1 has 2 projects (indices 0-1), Company 2 (index 2), Company 3 (index 3)
-      const companyIndices = [0, 0, 1, 2]; // Project to company mapping
-      const destinationCompany = companyIndices[destination] || destination;
-
-      if (destinationCompany !== currentCompanyIndex) {
-        currentCompanyIndex = destinationCompany;
-        setActiveFromSection(destination);
+      // Prevent scrolling between the two projects of Company 1 (sections 0 and 1)
+      // Allow scrolling to other companies (sections 2 and 3)
+      const isOriginCompany1Project = origin === 0 || origin === 1;
+      const isDestinationCompany1Project = destination === 0 || destination === 1;
+      
+      if (isOriginCompany1Project && isDestinationCompany1Project && origin !== destination) {
+        // Trying to scroll within Company 1's projects - prevent it
+        fullpageInstance.moveTo(origin);
       } else {
-        // If scrolling within same company, revert to previous section
-        if (fullpageInstance) {
-          fullpageInstance.moveTo(origin);
-        }
+        // Scrolling is allowed (different companies)
+        setActiveFromSection(destination);
       }
     },
+    onLeave: (origin, destination, direction) => {
+      // Additional check to prevent scrolling between Company 1's projects
+      const isOriginCompany1Project = origin === 0 || origin === 1;
+      const isDestinationCompany1Project = destination === 0 || destination === 1;
+      
+      if (isOriginCompany1Project && isDestinationCompany1Project && origin !== destination) {
+        return false; // Prevent the scroll
+      }
+      return true;
+    },
   });
+
+  // Initialize active state on page load
+  setActiveFromSection(0);
 
 } catch (error) {
   console.error();
