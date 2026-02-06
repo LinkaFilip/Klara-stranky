@@ -126,33 +126,9 @@ try {
     navigation: false,
     isScrolling: true,
     afterLoad: (origin, destination, direction) => {
-      // Prevent scrolling between the two projects of Company 1 (sections 0 and 1)
-      // Allow scrolling to other companies (sections 2 and 3)
-      const isOriginCompany1Project = origin === 0 || origin === 1;
-      const isDestinationCompany1Project = destination === 0 || destination === 1;
-      
-      if (isOriginCompany1Project && isDestinationCompany1Project && origin !== destination) {
-        // Trying to scroll within Company 1's projects - prevent it
-        fullpageInstance.moveTo(origin);
-      } else {
-        // Scrolling is allowed (different companies)
-        setActiveFromSection(destination);
-      }
-    },
-    onLeave: (origin, destination, direction) => {
-      // Additional check to prevent scrolling between Company 1's projects
-      const isOriginCompany1Project = origin === 0 || origin === 1;
-      const isDestinationCompany1Project = destination === 0 || destination === 1;
-      
-      if (isOriginCompany1Project && isDestinationCompany1Project && origin !== destination) {
-        return false; // Prevent the scroll
-      }
-      return true;
+      setActiveFromSection(destination);
     },
   });
-
-  // Initialize active state on page load
-  setActiveFromSection(0);
 
 } catch (error) {
   console.error();
