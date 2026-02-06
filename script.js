@@ -118,6 +118,7 @@ function setActiveFromSection(index) {
 }
 
 let fullpageInstance;
+let currentCompanyIndex = 0; // Track which company/section we're on
 
 try {
   fullpageInstance = new Fullpage('#fullpage', {
@@ -126,7 +127,20 @@ try {
     navigation: false,
     isScrolling: true,
     afterLoad: (origin, destination, direction) => {
-      setActiveFromSection(destination);
+      // Only allow scrolling between different companies, not within the same company's projects
+      // Group projects by company: Company 1 has 2 projects (indices 0-1), Company 2 (index 2), Company 3 (index 3)
+      const companyIndices = [0, 0, 1, 2]; // Project to company mapping
+      const destinationCompany = companyIndices[destination] || destination;
+
+      if (destinationCompany !== currentCompanyIndex) {
+        currentCompanyIndex = destinationCompany;
+        setActiveFromSection(destination);
+      } else {
+        // If scrolling within same company, revert to previous section
+        if (fullpageInstance) {
+          fullpageInstance.moveTo(origin);
+        }
+      }
     },
   });
 
