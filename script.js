@@ -101,41 +101,34 @@ ScrollTrigger.config({
 });
 window.addEventListener('resize', () => ScrollTrigger.refresh()); */
 
-// Build mapping of section index to company and project indices
-const companies = document.querySelectorAll('.__header_companyNameNest h1');
-const allProjects = document.querySelectorAll('.__header_projectNameNest h1');
-const sectionMappings = [];
-
-companies.forEach((company, companyIndex) => {
-  // Find the container that holds this company and its projects
-  // Assuming the company h1 is directly followed by its projects in the DOM order
-  // We can find projects by traversing siblings or using a common parent
-  // For simplicity, assuming projects are immediate siblings after company
-  let sibling = company.parentElement.nextElementSibling;
-  while (sibling) {
-    const projectsInSibling = sibling.querySelectorAll('.__header_projectNameNest h1');
-    projectsInSibling.forEach(project => {
-      const projectIndex = Array.from(allProjects).indexOf(project);
-      sectionMappings.push({ companyIndex, projectIndex });
-    });
-    sibling = sibling.nextElementSibling;
-    // Break if we find another company or end
-    if (sibling && sibling.querySelector('.__header_companyNameNest h1')) break;
-  }
-});
-
 // Function to set active state based on section index
 function setActiveFromSection(index) {
+  const companies = document.querySelectorAll('.__header_companyNameNest h1');
+  const projects = document.querySelectorAll('.__header_projectNameNest h1');
+
+  // Define number of projects per company
+  const projectsPerCompany = [2, 1, 1]; // Company 0 has 2 projects, Company 1 has 1, Company 2 has 1
+
+  // Calculate which company this index belongs to
+  let cumulative = 0;
+  let companyIndex = 0;
+  for (let i = 0; i < projectsPerCompany.length; i++) {
+    cumulative += projectsPerCompany[i];
+    if (index < cumulative) {
+      companyIndex = i;
+      break;
+    }
+  }
+
   // Reset all to default
   companies.forEach(company => company.classList.remove('active'));
-  allProjects.forEach(project => project.classList.remove('active'));
+  projects.forEach(project => project.classList.remove('active'));
 
-  // Activate the mapped company and project
-  const mapping = sectionMappings[index];
-  if (mapping) {
-    companies[mapping.companyIndex].classList.add('active');
-    allProjects[mapping.projectIndex].classList.add('active');
-  }
+  // Activate the company for this section
+  if (companies[companyIndex]) companies[companyIndex].classList.add('active');
+
+  // Activate the project at this index
+  if (projects[index]) projects[index].classList.add('active');
 
   return index;
 }
