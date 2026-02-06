@@ -106,8 +106,9 @@ function setActiveFromSection(index) {
   const companies = document.querySelectorAll('.__header_companyNameNest h1');
   const projects = document.querySelectorAll('.__header_projectNameNest h1');
 
-  // Define number of projects per company
-  const projectsPerCompany = [2, 1, 1]; // Company 0 has 2 projects, Company 1 has 1, Company 2 has 1
+  // Dynamically count projects per company
+  const columnArrangements = document.querySelectorAll('.columnArrangement');
+  const projectsPerCompany = Array.from(columnArrangements).map(arr => arr.querySelectorAll('.__header_projectNameNest').length);
 
   // Calculate which company this index belongs to
   let cumulative = 0;
