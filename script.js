@@ -102,7 +102,8 @@ ScrollTrigger.config({
 window.addEventListener('resize', () => ScrollTrigger.refresh()); */
 
 // Function to set active state based on section index
-function setActiveFromSection(index) {
+function setActiveFromSection(destination) {
+  const index = destination - 1; // fullpage destination is 1-based
   const companies = document.querySelectorAll('.__header_companyNameNest h1');
   const projects = document.querySelectorAll('.__header_projectNameNest h1');
 
@@ -114,11 +115,11 @@ function setActiveFromSection(index) {
   let cumulative = 0;
   let companyIndex = 0;
   for (let i = 0; i < projectsPerCompany.length; i++) {
-    cumulative += projectsPerCompany[i];
-    if (index < cumulative) {
+    if (index < cumulative + projectsPerCompany[i]) {
       companyIndex = i;
       break;
     }
+    cumulative += projectsPerCompany[i];
   }
 
   // Reset all to default
@@ -165,16 +166,27 @@ mainMenu.forEach(menuItem => {
 });
 
 
-// Add click listeners to project and company links to move to sections
-const projectLinks = document.querySelectorAll('#projects-grid a');
-
+// Add click listeners to project links to move to their sections
+const projectLinks = document.querySelectorAll('.__header_projectNameNest a');
 projectLinks.forEach((link, i) => {
-  const index = Math.floor(i / 2); // 0,0,1,1,2,2
-
   link.addEventListener('click', (e) => {
     e.preventDefault();
     if (fullpageInstance) {
-      fullpageInstance.moveTo(index);
+      fullpageInstance.moveTo(i + 1); // fullpage is 1-based
+    }
+  });
+});
+
+// Add click listeners to company links to move to the first project of that company
+const companyLinks = document.querySelectorAll('.__header_companyNameNest a');
+const columnArrangements = document.querySelectorAll('.columnArrangement');
+const projectsPerCompany = Array.from(columnArrangements).map(arr => arr.querySelectorAll('.__header_projectNameNest').length);
+companyLinks.forEach((link, i) => {
+  const firstProjectIndex = projectsPerCompany.slice(0, i).reduce((a, b) => a + b, 0);
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (fullpageInstance) {
+      fullpageInstance.moveTo(firstProjectIndex + 1); // fullpage is 1-based
     }
   });
 });
