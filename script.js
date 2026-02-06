@@ -34,19 +34,17 @@ document.addEventListener('mousemove', (e) => {
     }
 });
 
-// Add hover effect to show images when hovering over project names
+// Add hover effect to show images when hovering over project element
 const projectNames = document.querySelectorAll('.__header_projectNameNest');
 projectNames.forEach(name => {
     name.addEventListener('mouseenter', () => {
-        const parent = name.closest('.columnArrangement');
-        const img = parent.querySelector('.__header_imagePosition');
+        const img = name.querySelector('.__header_imagePosition');
         if (img) {
             img.classList.add('__header_imageActive');
         }
     });
     name.addEventListener('mouseleave', () => {
-        const parent = name.closest('.columnArrangement');
-        const img = parent.querySelector('.__header_imagePosition');
+        const img = name.querySelector('.__header_imagePosition');
         if (img) {
             img.classList.remove('__header_imageActive');
         }
@@ -103,7 +101,7 @@ window.addEventListener('resize', () => ScrollTrigger.refresh()); */
 
 // Function to set active state based on section index
 function setActiveFromSection(destination) {
-  const index = destination - 1; // fullpage destination is 1-based
+  const index = destination; // 0-based
   const companies = document.querySelectorAll('.__header_companyNameNest h1');
   const projects = document.querySelectorAll('.__header_projectNameNest h1');
 
@@ -172,7 +170,7 @@ projectLinks.forEach((link, i) => {
   link.addEventListener('click', (e) => {
     e.preventDefault();
     if (fullpageInstance) {
-      fullpageInstance.moveTo(i + 1); // fullpage is 1-based
+      fullpageInstance.moveTo(i); // fullpage is 0-based
     }
   });
 });
@@ -186,7 +184,7 @@ companyLinks.forEach((link, i) => {
   link.addEventListener('click', (e) => {
     e.preventDefault();
     if (fullpageInstance) {
-      fullpageInstance.moveTo(firstProjectIndex + 1); // fullpage is 1-based
+      fullpageInstance.moveTo(firstProjectIndex); // fullpage is 0-based
     }
   });
 });

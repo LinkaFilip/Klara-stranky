@@ -28,7 +28,7 @@
           </div>
         </div>
 
-        <div id="page-projects" class="mainPage mainPage_zr">
+        <div id="page-projects" class="mainPage mainPage_zr" style="grid-area: 1 / 1 / 4 / 2;">
           <a class="__header_textDefinition">poslední před spaním</a><br />
           <a class="__header_textDefinition">makulatura</a><br />
           <a class="__header_textDefinition">bílá štěňátka</a>
@@ -48,58 +48,56 @@
           facilisis orci sit amet commodo. Nunc congue blandit augue eget
           efficitur.
         </div>
-        <div id="projects-grid" style="display: grid; grid-area: 1 / 2 / 2 / 5">
-          <div class="columnArrangement hiddenNav">
+<div id="projects-grid" style="grid-area: 1 / 2 / 4 / 5; grid-template-columns: 1fr 1fr 1fr;" data-display="grid">
+          <div class="columnArrangement hiddenNav" style="grid-row: 1;grid-template-rows: repeat(2, 1fr);">
             <div class="__header_companyNameNest">
-              <a><h1 class="__header_textDefinition">Company</h1></a>
+              <a><h1 class="__header_textDefinition active">Company</h1></a>
             </div>
             <div class="__header_projectNameNest">
               <a><h1 class="__header_textDefinition">
                   Poslední před spaním
                 </h1></a>
+              <div class="__header_imageNest">
+                <img class="__header_imagePosition" src="https://filipl.art/images/the_last_one_before_bedtime.webp">
+              </div>
             </div>
-            <div class="__header_projectNameNest">
-              <a><h1 class="__header_textDefinition">Smth</h1></a>
-            </div>
-            <div class="__header_imageNest">
-              <img
-                class="__header_imagePosition"
-                src="https://filipl.art/images/the_last_one_before_bedtime.webp"
-              />
+            <div class="__header_projectNameNest" style="
+    top: 100%;
+">
+              <a><h1 class="__header_textDefinition active">
+                  smth
+                </h1></a>
+              <div class="__header_imageNest">
+                <img class="__header_imagePosition" src="https://filipl.art/images/white_puppiesquality=1.webp">
+              </div>
             </div>
           </div>
-          <div class="columnArrangement hiddenNav">
+          <div class="columnArrangement hiddenNav" style="grid-row: 2;">
             <div class="__header_companyNameNest">
               <a><h1 class="__header_textDefinition">Company 2</h1></a>
             </div>
             <div class="__header_projectNameNest">
               <a><h1 class="__header_textDefinition">Makulatura</h1></a>
-            </div>
-            <div class="__header_imageNest">
-              <img
-                class="__header_imagePosition"
-                src="https://filipl.art/images/makulatura2.webp"
-              />
+              <div class="__header_imageNest">
+                <img class="__header_imagePosition" src="https://filipl.art/images/makulatura2.webp">
+              </div>
             </div>
           </div>
-          <div class="columnArrangement hiddenNav">
+          <div class="columnArrangement hiddenNav" style="grid-row: 3;">
             <div class="__header_companyNameNest">
               <a><h1 class="__header_textDefinition">Company 3</h1></a>
             </div>
             <div class="__header_projectNameNest">
-              <a><h1 class="__header_textDefinition">Bílá štěňátka</h1></a>
-            </div>
             <div class="__header_imageNest">
-              <img
-                class="__header_imagePosition"
-                src="https://filipl.art/images/white_puppiesquality=1.webp"
-              />
+              <img class="__header_imagePosition" src="https://filipl.art/images/white_puppiesquality=1.webp">
+            </div>
+              <a><h1 class="__header_textDefinition">Bílá štěňátka</h1></a>
             </div>
           </div>
         </div>
 
         <div></div>
-        <div class="__header_subheader">See more</div>
+        <div class="__header_subheader" style="grid-area: 1 / 5 / 4 / 6;">See more</div>
       </header>
       <!-- <section
         class="__header_headerFontDefinition __header_headerMain __header_headerPosition seeMoreHover"
@@ -131,7 +129,7 @@
           </div>
           <div class="section">
             <img
-              src="https://filipl.art/images/the_last_one_before_bedtime.webp"
+              src="https://i.pinimg.com/736x/b2/fb/5e/b2fb5ecead34959192d86c25fd8e9b44.jpg"
               class="__main_mainImage_hero"
             />
           </div>
