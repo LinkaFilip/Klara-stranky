@@ -1,7 +1,0 @@
-- [x] Add media queries to styles.css for mobile responsiveness
-- [x] Stack header vertically on small screens
-- [x] Increase font sizes for mobile
-- [x] Make touch targets larger
-- [x] Hide custom cursor on mobile
-- [x] Adjust image and layout positions for mobile
-- [ ] Test the changes

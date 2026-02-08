@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+    <link rel="stylesheet" href="projects.css" />
+  </head>
+  <body>
+    <main id="main">
+      <h1>Template</h1>
+      <div class="container">
+        <div class="text">
+          <p>Technique: template</p>
+          <p>Number of copies: <strong>x</strong></p>
+          <p>Made in year <strong>2025</strong></p>
+        </div>
+        <div class="images">
+          <img class="placeholder" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="template" loading="eager" style="background-color: grey; height: 600px"/>
+          <img class="placeholder" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="template" loading="eager" style="background-color: grey; height: 300px"/>
+          <img class="placeholder" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="template" loading="eager" style="background-color: grey; height: 300px"/>
+          <img class="placeholder" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="template" loading="eager" style="background-color: grey; height: 400px"/>
+          <img class="placeholder" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="template" loading="eager" style="background-color: grey; height: 500px"/>
+          <img class="placeholder" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="template" loading="eager" style="background-color: grey; height: 200px"/>
+          <img class="placeholder" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="template" loading="eager" style="background-color: grey; height: 350px"/>
+          <img class="placeholder" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="template" loading="eager" style="background-color: grey; height: 450px"/>
+        </div>
+      </div>
+    </main>
+    <script>
+
+		document.querySelectorAll('.skeleton-image').forEach(img => {
+		img.addEventListener('load', () => {
+			img.style.display = 'block';
+			if(img.complete){
+				document.querySelector(".placeholder").style.display = "none";
+			}
+		});
+		}
+	);
+
+    </script>
+  </body>
+</html>
