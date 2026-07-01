@@ -138,9 +138,17 @@ export class Fullpage {
     if (this.navigation) {
       this.navigation.destroy();
     }
-    // Remove event listeners if needed
+    if (this.scrolling) {
+      this.scrolling.destroy();
+    }
+    if (this.hashChangeHandler) {
+      window.removeEventListener("hashchange", this.hashChangeHandler);
+      this.hashChangeHandler = null;
+    }
     this.container.style.overflow = "";
     this.container.style.height = "";
+    this.container.style.position = "";
+    this.container.style.transform = "";
     document.documentElement.style.overflow = "";
     document.body.style.overflow = "";
   }
@@ -164,8 +172,9 @@ export class Fullpage {
   }
 
   bindHashChange() {
-    window.addEventListener("hashchange", () => {
+    this.hashChangeHandler = () => {
       this.handleHashOnLoad();
-    });
+    };
+    window.addEventListener("hashchange", this.hashChangeHandler);
   }
 }

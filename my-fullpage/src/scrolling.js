@@ -11,20 +11,25 @@ export class Scrolling {
   }
 
   init() {
+    this.handleWheelBound = throttle(this.handleWheel.bind(this), 100);
+    this.handleKeydownBound = this.handleKeydown.bind(this);
+    this.handleTouchStartBound = this.handleTouchStart.bind(this);
+    this.handleTouchMoveBound = this.handleTouchMove.bind(this);
+    this.handleTouchEndBound = this.handleTouchEnd.bind(this);
     this.bindEvents();
   }
 
   bindEvents() {
     // Wheel event
-    this.fullpage.container.addEventListener('wheel', throttle(this.handleWheel.bind(this), 100), { passive: false });
+    this.fullpage.container.addEventListener('wheel', this.handleWheelBound, { passive: false });
 
     // Keyboard events
-    document.addEventListener('keydown', this.handleKeydown.bind(this));
+    document.addEventListener('keydown', this.handleKeydownBound);
 
     // Touch events
-    this.fullpage.container.addEventListener('touchstart', this.handleTouchStart.bind(this), { passive: false });
-    this.fullpage.container.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: false });
-    this.fullpage.container.addEventListener('touchend', this.handleTouchEnd.bind(this), { passive: false });
+    this.fullpage.container.addEventListener('touchstart', this.handleTouchStartBound, { passive: false });
+    this.fullpage.container.addEventListener('touchmove', this.handleTouchMoveBound, { passive: false });
+    this.fullpage.container.addEventListener('touchend', this.handleTouchEndBound, { passive: false });
   }
 
   handleWheel(e) {
@@ -94,5 +99,13 @@ export class Scrolling {
 
   setAllowScrolling(allow) {
     this.allowScrolling = allow;
+  }
+
+  destroy() {
+    this.fullpage.container.removeEventListener('wheel', this.handleWheelBound);
+    document.removeEventListener('keydown', this.handleKeydownBound);
+    this.fullpage.container.removeEventListener('touchstart', this.handleTouchStartBound);
+    this.fullpage.container.removeEventListener('touchmove', this.handleTouchMoveBound);
+    this.fullpage.container.removeEventListener('touchend', this.handleTouchEndBound);
   }
 }
